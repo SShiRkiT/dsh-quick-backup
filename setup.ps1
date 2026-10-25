@@ -11,7 +11,7 @@ param(
     [string]$ApiKeyDir = '',
     [string]$UserDataDir = '',
     [switch]$SkipInitial,
-    [switch]$SkipCredentials,
+    [switch]$IncludeCredentials,
     [switch]$EnableAutostart,
     [switch]$NoGlobalConfig,
     [switch]$Force
@@ -88,7 +88,7 @@ Write-Host "DSH profile : $DshProfile"
 Write-Host "Install root: $(if ($InstallRoot) { $InstallRoot } else { '(not detected; metadata will be skipped)' })"
 Write-Host "APIKey      : $(if ($ApiKeyDir) { $ApiKeyDir } else { '(not configured)' })"
 Write-Host "User data   : $UserDataDir"
-Write-Host "Credentials : $(if ($SkipCredentials) { 'excluded' } else { 'backed up (default)' })"
+Write-Host "Credentials : $(if ($IncludeCredentials) { 'backed up' } else { 'excluded (default)' })"
 
 Write-Step 'Copy workflow scripts'
 $scriptTarget = Join-Path $RepoPath 'scripts'
@@ -106,7 +106,7 @@ $config = [pscustomobject]@{
     dshInstallRoot      = $InstallRoot
     apiKeyDir           = $ApiKeyDir
     userDataDir         = $UserDataDir
-    includeCredentials  = (-not $SkipCredentials)
+    includeCredentials  = [bool]$IncludeCredentials
     createdAt           = (Get-Date).ToString('o')
     generator           = 'dsh-quick-backup setup.ps1'
 }

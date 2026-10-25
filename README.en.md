@@ -23,9 +23,9 @@ Local-only, Git-based incremental backup for the **DeepSeek Harness (DSH)** user
 ## ⚠️ Data and credential warning (read this)
 
 > [!WARNING]
-> **The local data repository stores `.credentials.yaml` and `APIKey` in plaintext, and Git history never forgets.**
+> **If you enable “Back up credentials and APIKey”, the local data repository stores `.credentials.yaml` and `APIKey` in plaintext, and Git history never forgets.**
 >
-> If you sync the backup folder to cloud storage, a network drive, or any other sync service, or forward it to another person, any resulting credential or privacy leak is **your responsibility**. The author assumes **no liability** for such leaks.
+> These files are excluded by default. If you enable them and then sync the backup folder to cloud storage, a network drive, or any other sync service, or forward it to another person, any resulting credential or privacy leak is **your responsibility**. The author assumes **no liability** for such leaks.
 
 ## Requirements
 
@@ -72,8 +72,8 @@ Useful options:
 # copy scripts/config only, do not copy the profile yet
 .\setup.ps1 -RepoPath "D:\DSH-Backups" -SkipInitial
 
-# do not back up .credentials.yaml / APIKey (enabled by default)
-.\setup.ps1 -RepoPath "D:\DSH-Backups" -SkipCredentials
+# include .credentials.yaml / APIKey (excluded by default)
+.\setup.ps1 -RepoPath "D:\DSH-Backups" -IncludeCredentials
 ```
 
 ### 3. Install the plugin
@@ -96,7 +96,7 @@ Open **Settings → Backup**. If the backup path was not configured by setup, ty
 | Control | Action |
 | --- | --- |
 | Backup repository path | Set or change the local data repository |
-| Back up credentials and APIKey | Enabled by default; disable to exclude `.credentials.yaml` and APIKey |
+| Back up credentials and APIKey | Disabled by default; enable to include `.credentials.yaml` and APIKey |
 | Backup | incremental backup (respects the 60 s guard) |
 | Force backup | force a backup now |
 | Verify / Deep verify | verify repository and Git objects |
@@ -117,9 +117,9 @@ Open **Settings → Backup**. If the backup path was not configured by setup, ty
 
 ## Credential backup switch
 
-- **Enabled by default**: `.credentials.yaml` and `APIKey` are backed up so a restore keeps your login state.
-- Disable it in **Settings → Backup → Back up credentials and APIKey**, or with `setup.ps1 -SkipCredentials`.
-- When disabled, later versions remove and exclude these files. **Old Git history is not rewritten automatically.** If credentials were backed up before, rebuild the data repository or clean its Git history to remove the old copies.
+- **Disabled by default**: `.credentials.yaml` and `APIKey` are not backed up.
+- Enable it in **Settings → Backup → Back up credentials and APIKey**, or with `setup.ps1 -IncludeCredentials`.
+- When enabled, later versions include these files. Disabling only excludes later versions; **old Git history is not rewritten automatically**. If credentials were backed up before, rebuild the data repository or clean its Git history to remove the old copies.
 
 ## Version model
 
@@ -219,7 +219,7 @@ Conversation content (`sessions`, `attachments`) and settings **are** backed up.
 ## Privacy and security
 
 - The backup data repository is **local-only**; `push.default=nothing` and a `pre-push` hook block accidental pushes.
-- The data repo contains **plaintext credentials** (`.credentials.yaml`, `APIKey`). Treat it as sensitive.
+- The data repo contains sessions, attachments, and settings; if credential backup is enabled, it also contains **plaintext credentials** (`.credentials.yaml`, `APIKey`). Treat it as sensitive.
 - This GitHub repository contains **no** credentials, sessions, profile copy, or backup data.
 - Do not upload the data repo to GitHub or a cloud drive.
 

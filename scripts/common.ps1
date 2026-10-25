@@ -76,7 +76,7 @@ function Read-BackupConfig {
     $userDataDir = if ($raw -and $raw.userDataDir) { $raw.userDataDir } else {
         Join-Path $env:APPDATA '@deepseek-ai\dsh-desktop'
     }
-    $includeCredentials = $true
+    $includeCredentials = $false
     if ($raw -and $raw.PSObject.Properties['includeCredentials']) {
         $includeCredentials = [bool]$raw.includeCredentials
     }

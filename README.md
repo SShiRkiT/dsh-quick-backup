@@ -23,9 +23,9 @@
 ## ⚠️ 数据与密钥风险（务必阅读）
 
 > [!WARNING]
-> **数据仓库会把 `.credentials.yaml` 和 `APIKey` 以明文保存在本地，而且 Git 历史永不遗忘。**
+> **如果开启“备份凭据与 APIKey”，数据仓库会把 `.credentials.yaml` 和 `APIKey` 以明文保存在本地，而且 Git 历史永不遗忘。**
 >
-> 如果你把备份文件夹进行云同步、网盘同步、网络驱动器同步，或者转发给他人，由此导致的凭据或隐私泄露由**你自行承担**，作者**不承担任何责任**。
+> 默认不备份这两项。若你主动开启，并把备份文件夹进行云同步、网盘同步、网络驱动器同步，或者转发给他人，由此导致的凭据或隐私泄露由**你自行承担**，作者**不承担任何责任**。
 
 ## 环境要求
 
@@ -72,8 +72,8 @@ powershell -ExecutionPolicy Bypass -File .\setup.ps1 -RepoPath "D:\DSH-Backups" 
 # 只复制脚本和配置，暂不复制 profile
 .\setup.ps1 -RepoPath "D:\DSH-Backups" -SkipInitial
 
-# 不备份 .credentials.yaml 与 APIKey（默认会备份）
-.\setup.ps1 -RepoPath "D:\DSH-Backups" -SkipCredentials
+# 如需备份 .credentials.yaml 与 APIKey（默认不备份）
+.\setup.ps1 -RepoPath "D:\DSH-Backups" -IncludeCredentials
 ```
 
 ### 3. 安装插件
@@ -96,7 +96,7 @@ https://github.com/SShiRkiT/dsh-quick-backup
 | 控件 | 作用 |
 | --- | --- |
 | 备份仓库路径 | 设置或修改本地数据仓库路径 |
-| 备份凭据与 APIKey | 默认开启；关闭后不备份 `.credentials.yaml` 和 APIKey |
+| 备份凭据与 APIKey | 默认关闭；开启后备份 `.credentials.yaml` 和 APIKey |
 | 备份 | 增量备份（遵守 60 秒最小间隔） |
 | 忽略间隔备份 | 立即强制备份 |
 | 校验 / 深度校验 | 校验仓库与 Git 对象 |
@@ -117,9 +117,9 @@ https://github.com/SShiRkiT/dsh-quick-backup
 
 ## 凭据备份开关
 
-- 默认**开启**：备份 `.credentials.yaml` 与 `APIKey`，保证回档后登录态可用。
-- 可在 **设置 → 备份 → 备份凭据与 APIKey** 关闭，或在 setup 时使用 `-SkipCredentials`。
-- 关闭后，后续版本会从工作区删除并排除这两项；但**旧 Git 历史不会自动清理**。如果之前备份过凭据，需要重建数据仓库或清理 Git 历史，才能真正移除旧副本。
+- 默认**关闭**：不备份 `.credentials.yaml` 与 `APIKey`。
+- 可在 **设置 → 备份 → 备份凭据与 APIKey** 开启，或在 setup 时使用 `-IncludeCredentials`。
+- 开启后，后续版本会包含这两项；关闭只会排除后续版本，**旧 Git 历史不会自动清理**。如果之前备份过凭据，需要重建数据仓库或清理 Git 历史，才能真正移除旧副本。
 
 ## 版本规则
 
@@ -219,7 +219,7 @@ powershell -ExecutionPolicy Bypass -File "$B\scripts\verify.ps1" -Deep
 ## 隐私与安全
 
 - 备份数据仓库**仅在本地**；`push.default=nothing` 和 `pre-push` 钩子会阻止误推送。
-- 数据仓库包含**明文凭据**（`.credentials.yaml`、`APIKey`），请按敏感数据保管。
+- 数据仓库包含你的会话、附件、设置等隐私内容；若开启凭据备份，还会包含**明文凭据**（`.credentials.yaml`、`APIKey`），请按敏感数据保管。
 - 本 GitHub 仓库**不包含**任何凭据、会话、profile 副本或备份数据。
 - 不要把数据仓库上传到 GitHub 或云盘。
 

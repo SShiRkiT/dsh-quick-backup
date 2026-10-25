@@ -1,8 +1,8 @@
 # Security
 
 > [!WARNING]
-> **The local data repository stores `.credentials.yaml` and `APIKey` in plaintext, and Git history never forgets.**
-> If you sync the backup folder to cloud storage, a network drive, or any other sync service, or forward it to another person, any resulting credential or privacy leak is **your responsibility**. The author assumes **no liability**.
+> **If credential backup is enabled, the local data repository stores `.credentials.yaml` and `APIKey` in plaintext, and Git history never forgets.**
+> These files are excluded by default. If you enable them and then sync the backup folder to cloud storage, a network drive, or any other sync service, or forward it to another person, any resulting credential or privacy leak is **your responsibility**. The author assumes **no liability**.
 
 ## Two repositories, very different trust levels
 
@@ -15,17 +15,17 @@ The data repository is created by `setup.ps1 -RepoPath <path>` at a separate pat
 
 ## What the data repo contains
 
-- `.dsh` profile: plugins, settings, sessions, attachments, `storages`, `.credentials.yaml`
+- `.dsh` profile: plugins, settings, sessions, attachments, `storages`
 - Electron user data (caches and cookies excluded)
-- `APIKey` directory if configured
+- `.credentials.yaml` and the `APIKey` directory **only when credential backup is enabled**
 - install identity metadata
 
-**Credentials are plaintext** in the data repo. Treat the whole folder as sensitive.
+**Credentials are plaintext** in the data repo when enabled. Treat the whole folder as sensitive.
 
 ## Credential backup switch
 
-- `.credentials.yaml` and `APIKey` are backed up **by default**.
-- Disable with `setup.ps1 -SkipCredentials` or the **Back up credentials and APIKey** checkbox in the panel.
+- `.credentials.yaml` and `APIKey` are **not backed up by default**.
+- Enable with `setup.ps1 -IncludeCredentials` or the **Back up credentials and APIKey** checkbox in the panel.
 - The switch affects **future versions only**. Git history is never rewritten automatically; old copies remain until you rebuild the data repository or clean its history.
 
 ## Local-only controls

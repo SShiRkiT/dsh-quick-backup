@@ -62,10 +62,10 @@ async function main() {
   assert.equal((await request('/config')).repo, fixture)
   assert.equal((await request('/config', { repo: 'relative' })).ok, false)
   assert.equal((await request('/config', { repo: fixture })).ok, true)
-  assert.equal((await request('/status')).includeCredentials, true)
-  assert.equal((await request('/options', { includeCredentials: false })).includeCredentials, false)
   assert.equal((await request('/status')).includeCredentials, false)
   assert.equal((await request('/options', { includeCredentials: true })).includeCredentials, true)
+  assert.equal((await request('/status')).includeCredentials, true)
+  assert.equal((await request('/options', { includeCredentials: false })).includeCredentials, false)
   assert.deepEqual((await request('/versions')).versions, ['v261025.1.002', 'v261025.1.001'])
 
   assert.equal((await request('/action', { action: 'arbitrary-script' })).ok, false)

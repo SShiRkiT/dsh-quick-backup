@@ -1,6 +1,6 @@
 {
   "name": "dsh-quick-backup",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Local-only backup controls and workflow for DeepSeek Harness",
   "type": "module",
   "main": "lib/index.js",

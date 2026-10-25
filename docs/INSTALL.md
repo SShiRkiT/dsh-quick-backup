@@ -17,7 +17,7 @@
    powershell -ExecutionPolicy Bypass -File .\setup.ps1 -RepoPath "D:\DSH-Backups" -EnableAutostart
    ```
 
-   Add `-SkipCredentials` if you do not want `.credentials.yaml` / `APIKey` in the backup.
+   Credentials are excluded by default. Add `-IncludeCredentials` if you want `.credentials.yaml` / `APIKey` in the backup.
 
 4. Install the plugin from **DSH Settings → Plugins** by entering:
 
@@ -63,9 +63,9 @@ The path field accepts an absolute local path such as `D:\DSH-Backups`. It does 
 
 ## Credential backup switch
 
-- Default: **enabled** — `.credentials.yaml` and `APIKey` are backed up.
-- Disable with `setup.ps1 -SkipCredentials` or the checkbox **Back up credentials and APIKey** in the panel.
-- Disabling affects **future versions only**. Old Git history is not rewritten; rebuild the data repository or clean its history if you need to remove old credential copies.
+- Default: **disabled** — `.credentials.yaml` and `APIKey` are not backed up.
+- Enable with `setup.ps1 -IncludeCredentials` or the checkbox **Back up credentials and APIKey** in the panel.
+- Enabling affects **future versions only**. Old Git history is not rewritten; if credentials were backed up before, rebuild the data repository or clean its history to remove old copies.
 
 ## Automatic backup
 

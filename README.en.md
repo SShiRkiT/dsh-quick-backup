@@ -26,6 +26,8 @@ Local-only, Git-based incremental backup for the **DeepSeek Harness (DSH)** user
 > **If you enable “Back up credentials and APIKey”, the local data repository stores `.credentials.yaml` and `APIKey` in plaintext, and Git history never forgets.**
 >
 > These files are excluded by default. If you enable them and then sync the backup folder to cloud storage, a network drive, or any other sync service, or forward it to another person, any resulting credential or privacy leak is **your responsibility**. The author assumes **no liability** for such leaks.
+>
+> **Note! v0.1 enables credential backup by default.** Be careful when using v0.1; upgrading to v0.2 or later is recommended.
 
 ## Requirements
 

@@ -1,0 +1,18 @@
+# This repository contains only the plugin and workflow scripts.
+# Never commit a DSH profile, sessions, credentials, or backup data.
+
+/mirror/
+/state/
+/data/
+/dist/
+/backup.config.json
+/version.txt
+/VERSIONS.md
+*.pre-restore-*
+*.log
+node_modules/
+.pnpm-store/
+target-session.jsonl
+.env
+.env.*
+*.tgz

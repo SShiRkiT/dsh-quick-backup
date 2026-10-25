@@ -1,0 +1,4 @@
+# Local backup controls for the desktop profile.
+- insert:
+    - id: dsh-quick-backup
+      name: dsh-quick-backup

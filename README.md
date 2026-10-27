@@ -99,6 +99,7 @@ https://github.com/SShiRkiT/dsh-quick-backup
 | --- | --- |
 | 备份仓库路径 | 设置或修改本地数据仓库路径 |
 | 备份凭据与 APIKey | 默认关闭；开启后备份 `.credentials.yaml` 和 APIKey |
+| 恢复旧 storages 缓存 | 从 `.dsh.pre-restore-*` 恢复 cost-meter / session 缓存；不进入 Git 历史 |
 | 备份 | 增量备份（遵守 60 秒最小间隔） |
 | 忽略间隔备份 | 立即强制备份 |
 | 校验 / 深度校验 | 校验仓库与 Git 对象 |
@@ -122,6 +123,19 @@ https://github.com/SShiRkiT/dsh-quick-backup
 - 默认**关闭**：不备份 `.credentials.yaml` 与 `APIKey`。
 - 可在 **设置 → 备份 → 备份凭据与 APIKey** 开启，或在 setup 时使用 `-IncludeCredentials`。
 - 开启后，后续版本会包含这两项；关闭只会排除后续版本，**旧 Git 历史不会自动清理**。如果之前备份过凭据，需要重建数据仓库或清理 Git 历史，才能真正移除旧副本。
+
+## 恢复旧 storages 缓存
+
+备份会把 `storages\cost-meter`、`storages\session_projcache`、`session_projcache.json` 排除在 Git 历史之外，所以它们不能通过回档 tag 恢复。
+
+在 **设置 → 备份 → 恢复旧 storages 缓存** 中：
+
+- 输入完整副本路径（通常是 `.dsh.pre-restore-*`）；留空会自动选择最新副本
+- 只复制 `cost-meter`、`session_projcache`、`session_projcache.json`
+- **不修改** `workspace.json`、设置、插件、凭据
+- 复制前先把当前 storages 安全备份到数据仓库 `state\storage-restore-*`
+- **不执行 git add/commit**，不会产生新的 Git 版本
+- 恢复后请重启 DSH 使缓存生效
 
 ## 版本规则
 

@@ -99,6 +99,7 @@ Open **Settings → Backup**. If the backup path was not configured by setup, ty
 | --- | --- |
 | Backup repository path | Set or change the local data repository |
 | Back up credentials and APIKey | Disabled by default; enable to include `.credentials.yaml` and APIKey |
+| Restore old storages caches | Restore cost-meter / session caches from `.dsh.pre-restore-*`; not in Git |
 | Backup | incremental backup (respects the 60 s guard) |
 | Force backup | force a backup now |
 | Verify / Deep verify | verify repository and Git objects |
@@ -122,6 +123,19 @@ Open **Settings → Backup**. If the backup path was not configured by setup, ty
 - **Disabled by default**: `.credentials.yaml` and `APIKey` are not backed up.
 - Enable it in **Settings → Backup → Back up credentials and APIKey**, or with `setup.ps1 -IncludeCredentials`.
 - When enabled, later versions include these files. Disabling only excludes later versions; **old Git history is not rewritten automatically**. If credentials were backed up before, rebuild the data repository or clean its Git history to remove the old copies.
+
+## Restore old storages caches
+
+The backup intentionally excludes `storages\cost-meter`, `storages\session_projcache`, and `session_projcache.json` from Git history, so they cannot be restored from a version tag.
+
+Use **Settings → Backup → Restore old storages caches**:
+
+- Enter a complete snapshot path (usually `.dsh.pre-restore-*`); leave it empty to auto-select the newest one
+- Only copies `cost-meter`, `session_projcache`, and `session_projcache.json`
+- Does **not** touch `workspace.json`, settings, plugins, or credentials
+- Backs up the current storages to the data repository `state\storage-restore-*` first
+- **No git add/commit**; no new Git version is created
+- Restart DSH after restoring
 
 ## Version model
 

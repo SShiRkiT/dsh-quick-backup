@@ -93,7 +93,7 @@ Write-Host "Credentials : $(if ($IncludeCredentials) { 'backed up' } else { 'exc
 Write-Step 'Copy workflow scripts'
 $scriptTarget = Join-Path $RepoPath 'scripts'
 New-Item -ItemType Directory -Force -Path $scriptTarget | Out-Null
-$scriptNames = @('common.ps1', 'backup.ps1', 'restore-version.ps1', 'watch-dsh.ps1', 'install-autostart.ps1', 'uninstall-autostart.ps1', 'verify.ps1')
+$scriptNames = @('common.ps1', 'backup.ps1', 'restore-version.ps1', 'restore-storages.ps1', 'watch-dsh.ps1', 'install-autostart.ps1', 'uninstall-autostart.ps1', 'verify.ps1')
 foreach ($name in $scriptNames) {
     Copy-Item -LiteralPath (Join-Path $PSScriptRoot "scripts\$name") -Destination (Join-Path $scriptTarget $name) -Force
 }
